@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: html-kube-tester
+spec:
+  replicas: 1
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - html-kube-tester
+              topologyKey: kubernetes.io/hostname
+      securityContext:
+        runAsUser: 82
+        runAsGroup: 82
+        fsGroup: 82
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+      - name: content-generator
+        image: quay.io/simbelmas/alpine-tools:stable
+        command: ["html-kube-tester-init.sh"]
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ['ALL']
+        env:
+        - name: KUBE_NODE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: spec.nodeName
+        - name: CONTENT_GIT_REPO
+          valueFrom:
+            configMapKeyRef:
+              name: html-kube-tester-config
+              key: content-git-repo
+        volumeMounts:
+        - name: init
+          mountPath: /usr/local/bin
+        - name: app-data
+          mountPath: /app
+      containers:
+      - name: html-kube-tester
+        image: quay.io/simbelmas/nginx:stable
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop: ['ALL']
+        volumeMounts:
+        - name: app-data
+          mountPath: /var/www/html
+        ports:
+          - containerPort: 8080
+        resources:
+          requests:
+            cpu: 2m
+            memory: 10Mi
+          limits:
+            cpu: 100m
+            memory: 25Mi
+        livenessProbe: &html-kube-tester-probe
+          httpGet:
+            path: /
+            port: 8080
+          timeoutSeconds: 5
+          periodSeconds: 15
+          failureThreshold: 10
+        readinessProbe: 
+          <<: *html-kube-tester-probe
+          periodSeconds: 2
+      volumes:
+      - name: init
+        configMap:
+          defaultMode: 0755
+          name: &html-kube-test-cm html-kube-tester-config
+          items:
+          - key: init.sh
+            path: html-kube-tester-init.sh
+      - name: app-data
+        emptyDir: {}
