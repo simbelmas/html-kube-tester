@@ -58,6 +58,7 @@ spec:
           mountPath: /var/www/html
         ports:
           - containerPort: 8080
+            protocol: TCP
         resources:
           requests:
             cpu: 2m
