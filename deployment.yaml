@@ -62,10 +62,10 @@ spec:
         resources:
           requests:
             cpu: 2m
-            memory: 10Mi
+            memory: 20Mi
           limits:
             cpu: 100m
-            memory: 25Mi
+            memory: 50Mi
         livenessProbe: &html-kube-tester-probe
           httpGet:
             path: /
