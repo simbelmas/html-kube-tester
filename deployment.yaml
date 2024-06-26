@@ -20,9 +20,6 @@ spec:
                   - html-kube-tester
               topologyKey: kubernetes.io/hostname
       securityContext:
-        runAsUser: 82
-        runAsGroup: 82
-        fsGroup: 82
         runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
