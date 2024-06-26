@@ -33,3 +33,5 @@ cat <<EOF >index.html
 </html>
 EOF
 
+echo '{"node": "'${KUBE_NODE_NAME}'"}' > kube-node.json
+
