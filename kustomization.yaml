@@ -5,9 +5,6 @@ namespace: html-kube-tester
 commonLabels:
   app.kubernetes.io/instance: html-kube-tester
   app.kubernetes.io/part-of: html-kube-tester
-  pod-security.kubernetes.io/enforce: restricted
-  pod-security.kubernetes.io/audit: restricted
-  pod-security.kubernetes.io/warn: restricted
 
 configMapGenerator:
 - name: html-kube-tester-config
