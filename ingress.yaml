@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: run
+  annotations:
+    route.openshift.io/termination: "edge"
+spec:
+  rules:
+  - host: my.app.example.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: html-kube-tester
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
+  tls:
+  - {}

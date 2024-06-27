@@ -17,6 +17,7 @@ resources:
 - namespace.yaml
 - deployment.yaml
 - service.yaml
+- ingress.yaml
 
 replacements:
   - source:
@@ -29,3 +30,9 @@ replacements:
         name: html-kube-tester
       fieldPaths:
       - spec.replicas
+
+patches:
+- path: ingress-patch-route-name.yaml
+  target:
+    kind: Ingress
+    name: run
