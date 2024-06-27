@@ -1,5 +1,6 @@
 # html-kube-tester
 
+## Workload
 Workload to test application behavior while making changes on infrastructure.
 
 Ingress fqdn has to be configured by either:
@@ -11,6 +12,6 @@ Ingress fqdn has to be configured by either:
 
 Connntent git will be displayed in an iframe with node name on top.
 
-Node name is displayed on the top of the page and also in kube-node.json
+Node name is displayed on the top of the page and also in kube-node.json and on kube-node.txt
 
 Thanks to https://github.com/amoldalwai/RoadFighter.git for having something fun to display.

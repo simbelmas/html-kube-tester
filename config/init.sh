@@ -34,4 +34,4 @@ cat <<EOF >index.html
 EOF
 
 echo '{"node": "'${KUBE_NODE_NAME}'"}' > kube-node.json
-
+echo -n ${KUBE_NODE_NAME} > kube-node.txt
