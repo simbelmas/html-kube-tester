@@ -1,6 +1,7 @@
 # html-kube-tester
 
 ## Workload
+
 Workload to test application behavior while making changes on infrastructure.
 
 Ingress fqdn has to be configured by either:
@@ -15,3 +16,12 @@ Connntent git will be displayed in an iframe with node name on top.
 Node name is displayed on the top of the page and also in kube-node.json and on kube-node.txt
 
 Thanks to https://github.com/amoldalwai/RoadFighter.git for having something fun to display.
+
+## Analyse script
+
+A script is given to test inngress availability.
+analyse.sh {ingress fqdn} [keep_results]
+
+Option *keep_results* does not ovewrite file on startup.
+
+Information is displayed in csv format: date (iso) | node hosting workload | request total time | response http code
