@@ -21,7 +21,8 @@ cat <<EOF >index.html
 </head>
 <body>
     <p align="center">
-        From node ${KUBE_NODE_NAME}
+        From node ${KUBE_NODE_NAME}<br />
+        as <a href="./kube-node.json">json</a> - <a href="./kube-node.txt">text</a>
     </p>
     <iframe
         id="embeddedcontent"
