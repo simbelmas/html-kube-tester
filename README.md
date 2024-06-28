@@ -24,4 +24,4 @@ analyse.sh {ingress fqdn} [keep_results]
 
 Option *keep_results* does not ovewrite file on startup.
 
-Information is displayed in csv format: date (epoch) | request total time | response http code | page successfully reached (0/1) | response conntent
+Information is displayed in csv format: "Date (Epoch)";"Request duration";"HTTP Response code";"App availability";"Event";"Response content"
