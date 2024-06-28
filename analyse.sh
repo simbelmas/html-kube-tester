@@ -37,6 +37,7 @@ while true ; do
     request_date=$(date '+%s')
     request_data="$(curl -m 2 -s -w "%output{$tmp_headers_file}%{time_total};%{http_code}" -k "${analyse_url}" | tr -d "\r" |tr -d "\n" | tr -d ";")"
     request_headers=$(cat ${tmp_headers_file})
-    echo "${request_date};${request_headers};${request_data}" | tee -a ${results_file}
+    response_success=$( [[ "$(echo ${request_headers} | cut -f2 -d';')" == "200" ]] && echo 1 || echo 0)
+    echo "${request_date};${request_headers};${response_success};${request_data}" | tee -a ${results_file}
     sleep 1
 done
