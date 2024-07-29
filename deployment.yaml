@@ -7,22 +7,27 @@ spec:
   replicas: 1
   template:
     spec:
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/instance
-                  operator: In
-                  values:
-                  - html-kube-tester
-              topologyKey: kubernetes.io/hostname
       securityContext:
         runAsNonRoot: true
         seccompProfile:
           type: RuntimeDefault
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector: 
+          matchLabels:
+            app.kubernetes.io/instance: html-kube-tester
+        matchLabelKeys:
+        - pod-template-hash
+      - maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
+        labelSelector: 
+          matchLabels:
+            app.kubernetes.io/instance: html-kube-tester
+        matchLabelKeys:
+        - pod-template-hash
       initContainers:
       - name: content-generator
         image: quay.io/simbelmas/alpine-tools:stable
@@ -61,21 +66,9 @@ spec:
             protocol: TCP
         resources:
           requests:
-            cpu: 1m
-            memory: 10Mi
+            cpu: 10m
           limits:
-            cpu: 100m
-            memory: 50Mi
-        livenessProbe: &html-kube-tester-probe
-          httpGet:
-            path: /
-            port: 8080
-          timeoutSeconds: 5
-          periodSeconds: 15
-          failureThreshold: 10
-        readinessProbe: 
-          <<: *html-kube-tester-probe
-          periodSeconds: 2
+            cpu: 40m
       volumes:
       - name: init
         configMap:

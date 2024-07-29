@@ -18,6 +18,7 @@ resources:
 - deployment.yaml
 - service.yaml
 - ingress.yaml
+#- resourceQuotas.yaml
 
 replacements:
   - source:
