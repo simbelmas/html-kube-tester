@@ -11,7 +11,7 @@ Ingress fqdn has to be configured by either:
    
 *replicas* and *content-git-repo* in *config* folder can be customized by modifying files or applying kustomize patch
 
-Connntent git will be displayed in an iframe with node name on top.
+Content git will be displayed in an iframe with node name on top. If it's empty, it will display a blank page with node name.
 
 Node name is displayed on the top of the page and also in kube-node.json and on kube-node.txt
 
